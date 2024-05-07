@@ -1,0 +1,96 @@
+{%extends "navbar.html"%} {% load static %}{%block title%} Inicio {%endblock%}
+{% block content %}
+<section>
+  <div class="jumbotron">
+    <h1
+      class="barlow-extrabold text-center"
+      style="
+        color: #ffffff;
+        text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        font-size: 56px;
+        width: 605px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 150px;
+      "
+    >
+      Busca y comparte material de estudio
+    </h1>
+    <div class="d-flex justify-content-center">
+      <form
+        class="d-flex flex-column align-items-center"
+        role="search"
+        style="width: 602px; height: 145px"
+        method="GET"
+        action="{% url 'busqueda' %}"
+      >
+        <div class="input-group mb-3">
+          <span
+            class="input-group-text"
+            style="height: 100px; color: rgba(47, 54, 95, 1)"
+          >
+            <i
+              class="fas fa-search"
+              style="font-size: 36px; line-height: 100px"
+            ></i>
+          </span>
+          <input
+            class="form-control barlow-bold"
+            type="search"
+            name="search"
+            placeholder="Buscar..."
+            aria-label="Buscar"
+            style="height: 100px; font-size: 40px"
+          />
+          <button class="btn custom-btn barlow-semibold" type="submit">
+            Buscar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div style="margin-top: 91px; margin-left: 80px">
+    <h2 class="barlow-extrabold" style="font-size: 56px">
+      Pubicaciones Recientes
+    </h2>
+  </div>
+  <div class="container-fluid justify-content-center">
+    <div class="row justify-content-center" style="padding: 79px">
+      {%for documento in documentos%}
+      <div class="col-3" style="float: none; margin: 0 auto">
+        <a href="{% url 'Post' documento.id_documento %}" class="btn">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title barlow-semibold">{{documento.titulo}}</h5>
+              <p class="card-text">
+                Subido el {{documento.fecha_subida}} por
+                {{documento.id_usuario}}
+              </p>
+              <div>
+                <div class="barlow-medium card-minititles">Asignatura</div>
+                <div class="card-text">{{documento.id_asignaturas}}</div>
+              </div>
+              <div>
+                <p class="barlow-medium card-minititles">Etiquetas</p>
+                <div class="card-tags">
+                  {% for etiqueta in documento.etiquetas.all|slice:":4" %}
+                  <span class="tag-bg">{{ etiqueta.nombre }}</span>
+                  {% endfor %} {% if documento.etiquetas.all|length > 4 %}
+                  <span class="tag-bg">...</span>
+                  <!-- Indicador de más elementos -->
+                  {% endif %}
+                </div>
+              </div>
+              <div class="card-text card-text-final">
+                <div>Calificación: {{ documento.calificacion }}</div>
+                <div>Descargas: {{documento.cantidad_descargas }}</div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</section>
+{% endblock %}

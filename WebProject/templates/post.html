@@ -1,0 +1,10 @@
+<!-- post.html -->
+{% extends "navbar.html" %} {% block content %}
+<div class="container">
+  <h2>{{ documento.titulo }}</h2>
+  <p>Subido el: {{ documento.fecha_subida }}</p>
+  <p>Calificación: {{ documento.calificacion }}</p>
+  <p>Descargas: {{ documento.cantidad_descargas }}</p>
+  <!-- Puedes añadir más información del documento -->
+</div>
+{% endblock %}

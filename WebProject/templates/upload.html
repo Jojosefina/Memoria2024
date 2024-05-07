@@ -1,0 +1,84 @@
+{%extends "navbar.html"%}{%load static%}{%block title%} Subir Documento
+{%endblock%} {% block content %}
+<div style="text-align: center; padding: 80px 0 80px 0">
+  <h2 class="barlow-extrabold" style="font-size: 56px">Subir Documento</h2>
+</div>
+<div class="container" style="padding-bottom: 80px">
+  <form id="uploadForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <!-- Columna derecha: etiquetas y área de arrastrar y soltar -->
+      <div class="col-md-6">
+        <!-- Área de arrastrar y soltar -->
+        <div id="drop-area" class="drop-zone upload-elements">
+          <input
+            type="file"
+            name="archivo"
+            id="archivo"
+            class="file-input"
+            hidden
+            accept=".pdf"
+          />
+          <div style="padding: 40px">
+            <i
+              class="fa-solid fa-circle-plus fa-2xl"
+              style="font-size: 80px"
+            ></i>
+            <p class="barlow-bold" style="margin-top: 30px; font-size: 20px">
+              Selecciona un Archivo
+            </p>
+            <!-- Contenedor para mostrar los archivos seleccionados -->
+            <div id="file-list"></div>
+          </div>
+        </div>
+        <div class="upload-elements">
+          <label for="etiquetas" class="barlow-bold">Etiquetas</label>
+          <div class="custom-upload-tags">
+            <div class="checkbox-container">
+              <!-- Iteración a través de las casillas de verificación -->
+              {% for checkbox in form.etiquetas %}
+              <div class="checkbox-item barlow-medium">{{ checkbox }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna izquierda: campos de formulario -->
+      <div class="col-md-6">
+        <!-- Usa col-6 para la mitad -->
+        <div class="upload-elements">
+          <label for="titulo" class="barlow-bold">Título del Documento</label>
+          {{form.titulo}}
+        </div>
+        <div class="upload-elements">
+          <label for="id_asignaturas" class="barlow-bold">Asignatura</label>
+          {{form.id_asignaturas}}
+        </div>
+        <div class="upload-elements">
+          <label for="profesor" class="barlow-bold"
+            >Profesor/a que dicta el ramo</label
+          >
+          {{form.profesor}}
+        </div>
+        <div class="upload-elements">
+          <label for="id_tipo_material" class="barlow-bold"
+            >Tipo de Material</label
+          >
+          {{form.id_tipo_material}}
+        </div>
+        <div class="upload-elements">
+          <!-- Botón para enviar -->
+          <input
+            class="btn custom-btn barlow-bold col-10"
+            style="margin-top: 20px"
+            type="submit"
+            value="Subir"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script src="{% static 'js/upload.js' %}"></script>
+{%endblock%}
