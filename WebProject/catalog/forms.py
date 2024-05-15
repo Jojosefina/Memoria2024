@@ -1,5 +1,5 @@
 from django import forms
-from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial
+from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Usuarios
 
 
 class FileForm(forms.ModelForm):
@@ -17,4 +17,16 @@ class FileForm(forms.ModelForm):
             'id_asignaturas': forms.Select(attrs={'class': 'form-control custom-upload-bar'}),
             'profesor': forms.Select(attrs={'class': 'form-control custom-upload-bar'}),
             'archivo': forms.FileInput(attrs={'class': 'form-control custom-upload-file-select'}),
+        }
+
+
+class RegisterForm(forms.ModelForm):
+    class Meta:
+        model = Usuarios
+        fields = ['nombre', 'apellido', 'correo', 'contrasena']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
+            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
+            'contrasena': forms.PasswordInput(attrs={'class': 'form-control'}),
         }

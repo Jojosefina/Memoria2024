@@ -1,0 +1,134 @@
+{% extends "navbar.html" %}{% load static %}{% block content %}
+
+<h2
+  class="barlow-extrabold titles"
+  style="font-size: 50px; padding: 49px 0 49px 80px"
+>
+  {{asignatura.nombre}}
+</h2>
+
+{% if documentos %}
+<div class="container">
+  {% for elementos in documentos %}
+  <!-- si es el primer documento en resultados -->
+  {% if forloop.first %}
+  <div class="row">
+    {% for elemento in elementos %}
+    <div class="col-3" style="float: none; margin: 0 auto">
+      <a href="{% url 'Post' elemento.id_documento %}" class="btn">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title barlow-semibold">{{elemento.titulo}}</h5>
+            <p class="card-text">
+              Subido el {{elemento.fecha_subida}} por {{elemento.id_usuario}}
+            </p>
+            <div>
+              <div class="barlow-medium card-minititles">Asignatura</div>
+              <div class="card-text">{{elemento.id_asignaturas}}</div>
+            </div>
+            <div>
+              <p class="barlow-medium card-minititles">Etiquetas</p>
+              <div class="card-tags">
+                {% for etiqueta in elemento.etiquetas.all|slice:":4" %}
+                <span class="tag-bg">{{ etiqueta.nombre }}</span>
+                {% endfor %} {% if elemento.etiquetas.all|length > 4 %}
+                <span class="tag-bg">...</span>
+                <!-- Indicador de más elementos -->
+                {% endif %}
+              </div>
+            </div>
+            <div class="card-text card-text-final">
+              <div>Calificación: {{ elemento.calificacion }}</div>
+              <div>Descargas: {{elemento.cantidad_descargas }}</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- si es el ultimo documento en resultados -->
+  {% elif forloop.last %}
+  <div class="row" style="margin-top: 98px; margin-bottom: 100px">
+    {% for elemento in elementos %}
+    <div class="col-3" style="float: none; margin: 0 auto">
+      <a href="{% url 'Post' elemento.id_documento %}" class="btn">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title barlow-semibold">{{elemento.titulo}}</h5>
+            <p class="card-text">
+              Subido el {{elemento.fecha_subida}} por {{elemento.id_usuario}}
+            </p>
+            <div>
+              <div class="barlow-medium card-minititles">Asignatura</div>
+              <div class="card-text">{{elemento.id_asignaturas}}</div>
+            </div>
+            <div>
+              <p class="barlow-medium card-minititles">Etiquetas</p>
+              <div class="card-tags">
+                {% for etiqueta in elemento.etiquetas.all|slice:":4" %}
+                <span class="tag-bg">{{ etiqueta.nombre }}</span>
+                {% endfor %} {% if elemento.etiquetas.all|length > 4 %}
+                <span class="tag-bg">...</span>
+                <!-- Indicador de más elementos -->
+                {% endif %}
+              </div>
+            </div>
+            <div class="card-text card-text-final">
+              <div>Calificación: {{ elemento.calificacion }}</div>
+              <div>Descargas: {{elemento.cantidad_descargas }}</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="row" style="margin-top: 98px">
+    {% for elemento in elementos %}
+    <div class="col-3" style="float: none; margin: 0 auto">
+      <a href="{% url 'Post' elemento.id_documento %}" class="btn">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title barlow-semibold">{{elemento.titulo}}</h5>
+            <p class="card-text">
+              Subido el {{elemento.fecha_subida}} por {{elemento.id_usuario}}
+            </p>
+            <div>
+              <div class="barlow-medium card-minititles">Asignatura</div>
+              <div class="card-text">{{elemento.id_asignaturas}}</div>
+            </div>
+            <div>
+              <p class="barlow-medium card-minititles">Etiquetas</p>
+              <div class="card-tags">
+                {% for etiqueta in elemento.etiquetas.all|slice:":4" %}
+                <span class="tag-bg">{{ etiqueta.nombre }}</span>
+                {% endfor %} {% if elemento.etiquetas.all|length > 4 %}
+                <span class="tag-bg">...</span>
+                <!-- Indicador de más elementos -->
+                {% endif %}
+              </div>
+            </div>
+            <div class="card-text card-text-final">
+              <div>Calificación: {{ elemento.calificacion }}</div>
+              <div>Descargas: {{elemento.cantidad_descargas }}</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    {% endfor %}
+  </div>
+  {% endif %} {% endfor %}
+</div>
+{% else %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 class="barlow-semibold">No hay apuntes para esta asignatura</h3>
+    </div>
+  </div>
+  {% endif %} {% endblock %}
+</div>

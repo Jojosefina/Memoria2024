@@ -1,10 +1,88 @@
-<!-- post.html -->
-{% extends "navbar.html" %} {% block content %}
-<div class="container">
-  <h2>{{ documento.titulo }}</h2>
-  <p>Subido el: {{ documento.fecha_subida }}</p>
-  <p>Calificación: {{ documento.calificacion }}</p>
-  <p>Descargas: {{ documento.cantidad_descargas }}</p>
-  <!-- Puedes añadir más información del documento -->
+{% extends "navbar.html" %}{% load static %} {% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <h2
+      class="barlow-extrabold"
+      style="font-size: 56px; padding: 49px 0 49px 80px"
+    >
+      {{ documento.titulo }}
+    </h2>
+  </div>
 </div>
-{% endblock %}
+<div class="container mb-5 pb-5">
+  <div class="row">
+    <div class="col-7">
+      <!-- Espaciado entre elementos -->
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Autor:</strong> {{ documento.id_usuario }}
+      </p>
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Asignatura:</strong> {{ documento.id_asignaturas }}
+      </p>
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Profesor/a:</strong> {{ documento.profesor.nombre }}
+        {{documento.profesor.apellido }}
+      </p>
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Tipo de Material:</strong> {{ documento.id_tipo_material }}
+      </p>
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Calificación:</strong> {{ documento.calificacion }}
+      </p>
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Cantidad de Descargas:</strong> {{documento.cantidad_descargas}}
+      </p>
+    </div>
+    <!-- Botón para descargar el documento -->
+    <div class="col">
+      <p class="barlow-semibold" style="font-size: 30px">
+        <strong>Etiquetas:</strong>
+        {% for etiqueta in etiquetas %}
+        <span class="tag-bg" style="font-size: 20px; padding: 5px"
+          >{{ etiqueta }}</span
+        >
+        {% endfor %}
+      </p>
+      <!-- Márgenes para espaciado -->
+      <a
+        href="{% url 'download_document' id_documento=documento.id_documento %}"
+        class="btn custom-btn"
+        style="
+          font-size: 40px;
+          margin-top: 20px;
+          width: 400px;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        "
+      >
+        <i
+          class="fa fa-download"
+          style="color: white; font-size: 40px; margin-right: 30px"
+        ></i>
+        Descargar
+        <!-- Ajuste para separar el icono del texto -->
+      </a>
+      <span id="span-container">
+        <!-- Contenedor en línea para estrellas -->
+        <div class="rate">
+          <input type="radio" id="star5" name="rate" value="5" />
+          <label for="star5" title="Muy Bueno"></label>
+          <input type="radio" id="star4" name="rate" value="4" />
+          <label for="star4" title="Bueno"></label>
+          <input type="radio" id="star3" name="rate" value="3" />
+          <label for="star3" title="Regular"></label>
+          <input type="radio" id="star2" name="rate" value="2" />
+          <label for="star2" title="Malo"></label>
+          <input type="radio" id="star1" name="rate" value="1" />
+          <label for="star1" title="Muy Malo"></label>
+        </div>
+      </span>
+    </div>
+  </div>
+  <script src="{% static 'js/post.js' %}"></script>
+  {% endblock %}
+</div>

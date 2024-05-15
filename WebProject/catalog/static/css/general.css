@@ -7,10 +7,17 @@ i {
   color: rgba(47, 54, 95, 1);
 }
 
+.titles {
+  width: 70%;
+}
 .navbar {
   margin-top: 123px;
   background-color: rgba(61, 90, 91, 0.66);
   height: 58px;
+}
+
+.nav-link {
+  font-size: 20px;
 }
 
 .barlow-medium {
@@ -72,7 +79,7 @@ i {
   /* Otros estilos para el contenedor de contenido si los necesitas */
 }
 
-.jumbotron {
+.jumbotron-home {
   /* Agrega la imagen de fondo */
   background-image: url("../img/banner.jpg");
   /* Establece el tamaño de la imagen de fondo */
@@ -84,6 +91,18 @@ i {
   height: 716px; /* Altura del jumbotron */
 }
 
+.jumbotron-register {
+  /* Agrega la imagen de fondo */
+  background-image: url("../img/register.jpg");
+  /* Establece el tamaño de la imagen de fondo */
+  background-size: cover;
+  /* Ajusta la posición de la imagen de fondo */
+  background-position: center;
+  /* Aplica una opacidad para que el texto sea legible */
+  opacity: 0.9; /* Puedes ajustar este valor según tus preferencias */
+  height: 110vh; /* Altura del jumbotron */
+}
+
 .card {
   background-color: rgba(254, 190, 176, 1);
   width: 339px;
@@ -92,6 +111,17 @@ i {
   display: flex;
   flex-direction: column;
   position: relative;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover:not(.no-hover) {
+  transition: transform 0.3s ease;
+  transform: scale(1.1); /* Escala un 10% más grande */
+}
+
+.no-hover {
+  width: 600px;
+  height: 550px;
 }
 
 .card-img-top {
@@ -101,8 +131,18 @@ i {
 }
 
 .card-subject {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
   width: 313px;
   height: 149px;
+}
+
+.card-subject-title {
+  font-family: "Barlow", sans-serif;
+  font-size: 27px;
+  margin-left: 20px;
 }
 
 .card-title {
@@ -274,4 +314,55 @@ i {
 
 .upload-elements {
   margin: 10px;
+}
+
+/*star rating*/
+.rate {
+  float: left; /* Alineación natural para comenzar de izquierda a derecha */
+  padding: 0 10px; /* Espacio entre estrellas */
+  width: 400px;
+}
+
+.rate:not(:checked) > input {
+  position: absolute;
+  top: -9999px; /* Ocultar los inputs */
+}
+
+.rate:not(:checked) > label {
+  float: right; /* Invierte el orden visual */
+  cursor: pointer;
+  font-size: 30px; /* Tamaño de las estrellas */
+  color: #ccc; /* Color de estrellas no seleccionadas */
+}
+
+.rate:not(:checked) > label:before {
+  font-size: 50px;
+  content: "★"; /* Símbolo de estrella */
+}
+
+.rate > input:checked ~ label {
+  color: rgba(168, 68, 122, 0.7); /* Color para estrellas seleccionadas */
+}
+
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+  color: rgba(
+    168,
+    68,
+    122,
+    0.7
+  ); /* Efecto de hover para estrellas no seleccionadas */
+}
+
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+  color: rgba(
+    168,
+    68,
+    122,
+    0.7
+  ); /* Efecto para hover con estrella seleccionada */
 }

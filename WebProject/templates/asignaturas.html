@@ -1,5 +1,5 @@
-{%extends "navbar.html"%}{%load static%} {% load static %}{%block title%}
-Asignaturas {%endblock%} {% block content %}
+{%extends "navbar.html"%}{% load static %}{%block title%} Asignaturas
+{%endblock%} {% block content %}
 <div class="row">
   <div class="col-6">
     <h2
@@ -38,226 +38,72 @@ Asignaturas {%endblock%} {% block content %}
   </div>
 </div>
 <div class="container">
+  {% for asignaturas in lista_asignaturas %}
+  <!-- si es el primer documento en resultados -->
+  {% if forloop.first %}
   <div class="row">
+    {% for asignatura in asignaturas %}
     <div class="col-3" style="float: none; margin: 0 auto">
       <div class="col">
-        <a href="#" class="btn">
+        <a
+          href="{% url 'ApuntesAsignaturas' asignatura.id_asignatura %}"
+          class="btn"
+        >
           <div class="card card-subject">
             <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-calculator fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
               <div class="col text-center align-self-center">
-                <h5 class="card-title">Introducción al Cálculo</h5>
+                <h5 class="card-subject-title">{{asignatura.nombre}}</h5>
               </div>
             </div>
           </div>
         </a>
       </div>
     </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-infinity fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Introducción al Álgebra</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i class="fa-solid fa-dove fa-2xl" style="font-size: 50px"></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Biología</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+    {% endfor %}
   </div>
-  <div class="row" style="margin-top: 98px">
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-magnet fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Introducción a la Física Clásica</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i class="fa-solid fa-atom fa-2xl" style="font-size: 50px"></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Introducción a la Física Moderna</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i class="fa-solid fa-code fa-2xl" style="font-size: 50px"></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Introducción a la Programación</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="row" style="margin-top: 98px">
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-chart-simple fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Cálculo Diferencial e Integral</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-plus-minus fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Álgebra Lineal</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-chart-line fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">EDO</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
+  {% elif forloop.last %}
   <div class="row" style="margin-top: 98px; margin-bottom: 70px">
+    {% for asignatura in asignaturas %}
     <div class="col-3" style="float: none; margin: 0 auto">
       <div class="col">
-        <a href="#" class="btn">
+        <a
+          href="{% url 'ApuntesAsignaturas' asignatura.id_asignatura %}"
+          class="btn"
+        >
           <div class="card card-subject">
             <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-regular fa-lightbulb fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
               <div class="col text-center align-self-center">
-                <h5 class="card-title">CAA</h5>
+                <h5 class="card-subject-title">{{asignatura.nombre}}</h5>
               </div>
             </div>
           </div>
         </a>
       </div>
     </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Electromagnetismo</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-3" style="float: none; margin: 0 auto">
-      <div class="col">
-        <a href="#" class="btn">
-          <div class="card card-subject">
-            <div class="card-body row">
-              <div class="col-3 text-center align-self-center">
-                <i
-                  class="fa-solid fa-temperature-three-quarters fa-2xl"
-                  style="font-size: 50px"
-                ></i>
-              </div>
-              <div class="col text-center align-self-center">
-                <h5 class="card-title">Termodinámica</h5>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
+    {% endfor %}
   </div>
+  {% else %}
+  <div class="row" style="margin-top: 98px">
+    {% for asignatura in asignaturas %}
+    <div class="col-3" style="float: none; margin: 0 auto">
+      <div class="col">
+        <a
+          href="{% url 'ApuntesAsignaturas' asignatura.id_asignatura %}"
+          class="btn"
+        >
+          <div class="card card-subject">
+            <div class="card-body row">
+              <div class="col text-center align-self-center">
+                <h5 class="card-subject-title">{{asignatura.nombre}}</h5>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endif %} {% endfor %}
 </div>
 {%endblock%}

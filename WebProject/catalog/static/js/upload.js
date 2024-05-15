@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropArea = document.getElementById("drop-area");
   const fileInput = document.getElementById("archivo");
   const fileList = document.getElementById("file-list");
+  document.getElementById("id_id_asignaturas").value = "";
+  document.getElementById("id_profesor").value = "";
 
   const updateFileList = (files) => {
     fileList.innerHTML = ""; // Limpiar el contenido anterior
@@ -41,6 +43,32 @@ document.addEventListener("DOMContentLoaded", function () {
   fileInput.addEventListener("change", () => {
     updateFileList(fileInput.files); // Actualiza cuando se seleccionan archivos
   });
+
+  document.getElementById("id_profesor").disabled = true;
+
+  document
+    .getElementById("id_id_asignaturas")
+    .addEventListener("change", function () {
+      var asignaturaSeleccionada = this.value;
+      // Realiza una solicitud AJAX para obtener los profesores de la asignatura seleccionada
+      fetch("/obtener-profesores/" + asignaturaSeleccionada)
+        .then((response) => response.json())
+        .then((profesores) => {
+          // Actualiza el campo de profesores con los profesores obtenidos
+          var selectProfesor = document.getElementById("id_profesor");
+          selectProfesor.innerHTML = ""; // Limpiar el campo de profesores
+          profesores.forEach((profesor) => {
+            var option = new Option(
+              profesor.nombre + " " + profesor.apellido,
+              profesor.id
+            );
+            selectProfesor.add(option);
+          });
+          // Habilita el campo de profesor después de seleccionar una asignatura
+          selectProfesor.disabled = false;
+        })
+        .catch((error) => console.error("Error:", error));
+    });
 });
 
 document
@@ -50,6 +78,7 @@ document
     const etiquetas = document.querySelectorAll(
       '.checkbox-container input[type="checkbox"]:checked'
     );
+    const profesorSelect = document.getElementById("id_profesor");
 
     if (!fileInput.files.length) {
       alert("Por favor, selecciona un archivo.");
@@ -58,6 +87,15 @@ document
 
     if (!etiquetas.length) {
       alert("Por favor, selecciona al menos una etiqueta.");
+      event.preventDefault(); // Detener el envío del formulario
+    }
+
+    // Verifica que el valor del campo de profesor sea el ID del profesor
+    if (
+      profesorSelect.value !==
+      profesorSelect.options[profesorSelect.selectedIndex].value
+    ) {
+      alert("Por favor, selecciona un profesor válido.");
       event.preventDefault(); // Detener el envío del formulario
     }
   });

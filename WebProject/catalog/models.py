@@ -105,6 +105,7 @@ class Documentos(models.Model):
         Profesores, on_delete=models.SET_NULL, null=True)
     archivo = models.FileField(upload_to=change_file_name)
     calificacion = models.FloatField()
+    num_calificaciones = models.IntegerField(default=0)
     cantidad_descargas = models.IntegerField()
     etiquetas = models.ManyToManyField(Etiquetas)
 
