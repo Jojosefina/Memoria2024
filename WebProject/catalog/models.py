@@ -1,6 +1,7 @@
 import os
 import random
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class TiposMaterial(models.Model):
@@ -67,14 +68,82 @@ class Etiquetas(models.Model):
         return self.nombre
 
 
-class Usuarios(models.Model):
+# class Usuarios(models.Model):
+#     id_usuario = models.AutoField(primary_key=True)
+#     nombre = models.CharField(max_length=20)
+#     apellido = models.CharField(max_length=20)
+#     correo = models.EmailField()
+#     contrasena = models.CharField(max_length=15)
+#     fecha_nacimiento = models.DateField()
+#     fecha_ingreso = models.DateField()
+
+#     class Meta:
+#         verbose_name = 'Usuario'
+#         verbose_name_plural = 'Usuarios'
+
+#     def __str__(self):
+#         return self.nombre + ' ' + self.apellido
+
+
+# create new users
+class UserManager(BaseUserManager):
+    def create_user(self, correo, nombre, apellido, fecha_nacimiento, fecha_ingreso, password=None):
+        if not correo:
+            raise ValueError('El usuario debe tener un correo electrónico')
+        if not nombre:
+            raise ValueError('El usuario debe tener un nombre')
+        if not apellido:
+            raise ValueError('El usuario debe tener un apellido')
+        if not fecha_nacimiento:
+            raise ValueError('El usuario debe tener una fecha de nacimiento')
+        if not fecha_ingreso:
+            raise ValueError(
+                'El usuario debe tener una fecha de ingreso a la universidad')
+
+        user = self.model(
+            correo=self.normalize_email(correo),
+            nombre=nombre,
+            apellido=apellido,
+            fecha_nacimiento=fecha_nacimiento,
+            fecha_ingreso=fecha_ingreso
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, correo, nombre, apellido, fecha_nacimiento, fecha_ingreso, password):
+        user = self.create_user(
+            correo=correo,
+            nombre=nombre,
+            apellido=apellido,
+            fecha_nacimiento=fecha_nacimiento,
+            fecha_ingreso=fecha_ingreso,
+            password=password
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+class Account(AbstractBaseUser):
     id_usuario = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=20)
     apellido = models.CharField(max_length=20)
-    correo = models.EmailField()
-    contrasena = models.CharField(max_length=15)
+    correo = models.EmailField(unique=True)
     fecha_nacimiento = models.DateField()
     fecha_ingreso = models.DateField()
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'correo'
+    REQUIRED_FIELDS = ['nombre', 'apellido',
+                       'fecha_nacimiento', 'fecha_ingreso']
 
     class Meta:
         verbose_name = 'Usuario'
@@ -82,6 +151,12 @@ class Usuarios(models.Model):
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return True
 
 
 def change_file_name(instance, filename):
@@ -95,7 +170,7 @@ class Documentos(models.Model):
     id_documento = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=50)
     id_usuario = models.ForeignKey(
-        Usuarios, on_delete=models.SET_NULL, null=True)
+        Account, on_delete=models.SET_NULL, null=True)
     fecha_subida = models.DateField()
     id_tipo_material = models.ForeignKey(
         TiposMaterial, on_delete=models.SET_NULL, null=True)
@@ -118,7 +193,7 @@ class Comentarios(models.Model):
     id_comentario = models.AutoField(primary_key=True)
     id_documento_asociado = models.ForeignKey(
         Documentos, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(Usuarios, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(Account, on_delete=models.CASCADE)
     fecha = models.DateField()
     contenido = models.TextField()
 

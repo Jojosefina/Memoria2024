@@ -4,7 +4,7 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.template import Template, Context, loader
 from .forms import FileForm
-from .models import Asignaturas, Documentos, Etiquetas, Profesores, Usuarios
+from .models import Asignaturas, Documentos, Etiquetas, Profesores, Account
 
 
 def home(request):
@@ -89,7 +89,7 @@ def subida(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             documento_instance = form.save(commit=False)
-            documento_instance.id_usuario = Usuarios.objects.filter(
+            documento_instance.id_usuario = Account.objects.filter(
                 id_usuario=1).first()  # request.user
             documento_instance.fecha_subida = datetime.datetime.now()
             documento_instance.calificacion = 0

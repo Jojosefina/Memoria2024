@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import TiposMaterial, Asignaturas, Profesores, Semestres, Comentarios, Etiquetas, Documentos, Usuarios
+from django.contrib.auth.admin import UserAdmin
+from .models import TiposMaterial, Asignaturas, Profesores, Semestres, Comentarios, Etiquetas, Documentos, Account
 # Register your models here.
 
 
@@ -58,11 +59,15 @@ class DocumentosAdmin(admin.ModelAdmin):
                           'fecha_subida', 'id_tipo_material', 'id_asignaturas', 'archivo', 'calificacion', 'cantidad_descargas')
 
 
-@admin.register(Usuarios)
-class Usuarios(admin.ModelAdmin):
+class AccountAdmin(UserAdmin):
     list_display = ('id_usuario', 'nombre', 'apellido',
-                    'correo', 'fecha_nacimiento', 'fecha_ingreso')
-    search_fields = ('id_usuario', 'nombre', 'apellido',
-                     'correo', 'fecha_nacimiento', 'fecha_ingreso')
-    list_display_links = ('id_usuario', 'nombre', 'apellido',
-                          'correo', 'fecha_nacimiento', 'fecha_ingreso')
+                    'correo', 'is_admin', 'is_staff')
+    search_fields = ('nombre', 'apellido', 'correo')
+    readonly_fields = ('id_usuario', 'fecha_ingreso')
+    ordering = ('correo',)
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
+
+admin.site.register(Account, AccountAdmin)

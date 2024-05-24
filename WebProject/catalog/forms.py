@@ -1,5 +1,5 @@
 from django import forms
-from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Usuarios
+from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Account
 
 
 class FileForm(forms.ModelForm):
@@ -22,11 +22,10 @@ class FileForm(forms.ModelForm):
 
 class RegisterForm(forms.ModelForm):
     class Meta:
-        model = Usuarios
-        fields = ['nombre', 'apellido', 'correo', 'contrasena']
+        model = Account
+        fields = ['nombre', 'apellido', 'correo']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
             'correo': forms.EmailInput(attrs={'class': 'form-control'}),
-            'contrasena': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
