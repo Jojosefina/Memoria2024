@@ -1,4 +1,5 @@
-{% extends "navbar.html" %}{% load static %}{% block content %}
+{% extends "navbar.html" %}{% load static %}{%block title%} Registro
+{%endblock%}{% block content %}
 
 <div class="jumbotron-register">
   <h1
@@ -10,15 +11,93 @@
       width: 605px;
       margin-left: auto;
       margin-right: auto;
-      padding-top: 150px;
+      padding-top: 100px;
     "
   >
     Regístrate
   </h1>
   <div class="container-fluid justify-content-center">
     <div class="row justify-content-center" style="padding: 79px">
-      <div class="card no-hover"></div>
+      <div class="card no-hover h-auto">
+        <div class="container">
+          <form id="registerForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="form-group">
+                <label for="nombre" class="barlow-bold register-title"
+                  >Nombre:
+                </label>
+                {{ form.nombre }}
+                <div class="form-group">
+                  <label for="apellido" class="barlow-bold register-title"
+                    >Apellido:
+                  </label>
+                  {{ form.apellido }}
+                </div>
+                <div class="form-group">
+                  <label for="email" class="barlow-bold register-title"
+                    >Correo Electrónico:
+                  </label>
+                  {{ form.correo }}
+                </div>
+                <div class="form-group">
+                  <label for="password1" class="barlow-bold register-title"
+                    >Contraseña:</label
+                  >
+                  {{ form.password1 }}
+                </div>
+                <div class="form-group">
+                  <label for="password2" class="barlow-bold register-title"
+                    >Confirmar Contraseña:</label
+                  >
+                  {{ form.password2 }}
+                </div>
+
+                <div class="form-group" style="padding-top: 15px">
+                  <input
+                    class="custom-checkbox"
+                    type="checkbox"
+                    id="show-password"
+                  />
+                  Mostrar Contraseñas
+                </div>
+                <div class="form-group">
+                  <label
+                    for="fecha_nacimiento"
+                    class="barlow-bold register-title"
+                    >Fecha de Nacimiento:
+                  </label>
+                  {{ form.fecha_nacimiento }}
+                </div>
+                <div class="form-group">
+                  <label for="fecha_ingreso" class="barlow-bold register-title"
+                    >Fecha de Ingreso a la Universidad:
+                  </label>
+                  {{ form.fecha_ingreso }}
+                </div>
+              </div>
+            </div>
+            {% if form.errors %} {% for field in form %}
+            <!--prettier-ignore-->
+            {% for error in field.errors %}
+            <div class="alert alert-danger" role="alert">
+              <strong>{{ error|escape }}</strong>
+            </div>
+            {% endfor %} {% endfor %} {% endif %}
+            <div class="text-center" style="padding: 15px">
+              <!-- Botón para enviar -->
+              <input
+                class="btn custom-btn barlow-bold"
+                style="margin-top: 20px"
+                type="submit"
+                value="Registrarse"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<script src="{% static 'js/register.js' %}"></script>
 {% endblock %}

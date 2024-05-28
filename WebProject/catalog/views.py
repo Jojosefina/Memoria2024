@@ -1,9 +1,10 @@
 import datetime
 import os
+from django.contrib.auth import authenticate, login
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.template import Template, Context, loader
-from .forms import FileForm
+from .forms import FileForm, RegisterForm
 from .models import Asignaturas, Documentos, Etiquetas, Profesores, Account
 
 
@@ -104,5 +105,28 @@ def subida(request):
     return render(request, 'upload.html', {'form': form})
 
 
-def registro(request):
-    return render(request, 'register.html')
+def registro(request, *args, **kwargs):
+    user = request.user
+    if user.is_authenticated:
+        return HttpResponse(f"Ya has iniciado sesión como {user.correo}.")
+    context = {}
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            print("Formulario válido")
+            form.save()
+            email = form.cleaned_data.get('correo').lower()
+            password = form.cleaned_data.get('password1')
+            account = authenticate(correo=email, password=password)
+            login(request, account)
+            destination = kwargs.get('next')
+            if destination:
+                return redirect(destination)
+            return redirect('home')
+        else:
+            print("Formulario inválido")
+            print(form.errors)
+            context['form'] = form
+    else:
+        context['form'] = RegisterForm()
+    return render(request, 'register.html', context)

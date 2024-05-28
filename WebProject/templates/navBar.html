@@ -51,6 +51,7 @@
       ></i>
       <div id="container" class="d-none">
         <!-- Contenido del contenedor -->
+        aaa
       </div>
     </div>
     <nav class="navbar navbar-expand-lg">
@@ -82,7 +83,60 @@
       </div>
       <!-- Container wrapper -->
     </nav>
-    {% block content %}{% endblock %}
+    {% block content %}{% endblock %} {% comment %}
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="email" class="form-label">e-mail</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  aria-describedby="emailHelp"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="modal-password" class="form-label"
+                  >Contraseña</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="modal-password"
+                />
+              </div>
+              <div class="mb-3">
+                <a href="{% url 'Registro' %}"
+                  >¿No tienes cuenta? Regístrate aquí</a
+                >
+              </div>
+              <button type="submit" class="btn btn-primary" onclick="login()">
+                Iniciar Sesión
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endcomment %}
     <script
       src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
       integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
@@ -93,5 +147,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="{% static 'js/navBar.js' %}"></script>
   </body>
 </html>

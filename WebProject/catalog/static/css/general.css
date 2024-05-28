@@ -100,7 +100,7 @@ i {
   background-position: center;
   /* Aplica una opacidad para que el texto sea legible */
   opacity: 0.9; /* Puedes ajustar este valor según tus preferencias */
-  height: 110vh; /* Altura del jumbotron */
+  height: 140vh; /* Altura del jumbotron */
 }
 
 .card {
@@ -112,16 +112,6 @@ i {
   flex-direction: column;
   position: relative;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-}
-
-.card:hover:not(.no-hover) {
-  transition: transform 0.3s ease;
-  transform: scale(1.1); /* Escala un 10% más grande */
-}
-
-.no-hover {
-  width: 600px;
-  height: 550px;
 }
 
 .card-img-top {
@@ -270,6 +260,7 @@ i {
 }
 
 .custom-checkbox {
+  font-family: "barlow", sans-serif;
   width: 18px;
   height: 18px;
   background-color: rgba(61, 90, 91, 0.42);
@@ -365,4 +356,58 @@ i {
     122,
     0.7
   ); /* Efecto para hover con estrella seleccionada */
+}
+
+/* REGISTRO */
+.register-title {
+  font-size: 25px;
+  color: rgba(47, 54, 95, 1);
+  padding: 15px;
+}
+
+.card:hover:not(.no-hover) {
+  transition: transform 0.3s ease;
+  transform: scale(1.1); /* Escala un 10% más grande */
+}
+
+.no-hover {
+  width: 600px;
+}
+
+/* NAVBAR */
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  justify-content: flex-end;
+}
+
+.menu-text {
+  margin-right: 10px;
+  color: #2f365f;
+}
+.menu-icon {
+  cursor: pointer;
+  color: #2f365f;
+  margin-left: 10px;
+}
+.login-button {
+  background-color: rgba(254, 190, 176, 1);
+  border: none;
+  color: rgba(47, 54, 95, 1);
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "Barlow", sans-serif;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.login-button i {
+  margin-right: 5px;
 }
