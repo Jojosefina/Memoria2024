@@ -1,6 +1,6 @@
 import datetime
 import os
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.template import Template, Context, loader
@@ -130,3 +130,25 @@ def registro(request, *args, **kwargs):
     else:
         context['form'] = RegisterForm()
     return render(request, 'register.html', context)
+
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('correo')
+        password = request.POST.get('password')
+        user = authenticate(correo=email, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirigir a la página de inicio después del inicio de sesión exitoso
+            return redirect('home')
+        else:
+            # Aquí puedes manejar el caso en el que las credenciales son inválidas
+            return HttpResponse('Credenciales inválidas', status=401)
+    else:
+        # Aquí puedes manejar el caso en el que no se haya enviado un formulario de inicio de sesión
+        return HttpResponse('Método no permitido', status=405)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')

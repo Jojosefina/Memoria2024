@@ -411,3 +411,8 @@ i {
 .login-button i {
   margin-right: 5px;
 }
+
+/* MODAL */
+.modal-content {
+  background-color: rgba(251, 228, 213, 1);
+}

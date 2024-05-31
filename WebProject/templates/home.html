@@ -62,6 +62,7 @@
       O
     </h1>
     <div class="d-flex justify-content-center">
+      {% if user.is_authenticated %}
       <a
         href="{% url 'upload' %}"
         class="btn custom-btn barlow-bold col-10"
@@ -78,6 +79,25 @@
       >
         Subir Material
       </a>
+      {% else %}
+
+      <button
+        class="btn custom-btn barlow-bold col-10 h-auto"
+        style="
+          font-size: 40px;
+          margin-top: 20px;
+          width: 602px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        "
+        data-bs-toggle="modal"
+        data-bs-target="#loginModal"
+      >
+        Inicia sesión para subir material
+      </button>
+      {% endif %}
     </div>
   </div>
   <div style="margin-top: 91px; margin-left: 80px">
@@ -87,7 +107,7 @@
   </div>
   <div class="container-fluid justify-content-center">
     <div class="row justify-content-center" style="padding: 79px">
-      {%for documento in documentos%}
+      {% if user.is_authenticated %} {%for documento in documentos%}
       <div class="col-3" style="float: none; margin: 0 auto">
         <a href="{% url 'Post' documento.id_documento %}" class="btn">
           <div class="card">
@@ -120,7 +140,14 @@
           </div>
         </a>
       </div>
-      {%endfor%}
+      {%endfor%}{% else %}
+      <div
+        class="col-3 barlow-semibold"
+        style="float: none; margin: 0 auto; font-size: 25px"
+      >
+        <p>Inicia sesión para ver las publicaciones recientes</p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -6,8 +6,7 @@
 >
   {{asignatura.nombre}}
 </h2>
-
-{% if documentos %}
+{% if user.is_authenticated %} {% if documentos %}
 <div class="container">
   {% for elementos in documentos %}
   <!-- si es el primer documento en resultados -->
@@ -130,5 +129,15 @@
       <h3 class="barlow-semibold">No hay apuntes para esta asignatura</h3>
     </div>
   </div>
-  {% endif %} {% endblock %}
+  {% endif %} {% else %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h3 class="barlow-semibold">
+          Inicia sesión para ver los apuntes de esta asignatura
+        </h3>
+      </div>
+    </div>
+    {% endif %} {% endblock %}
+  </div>
 </div>

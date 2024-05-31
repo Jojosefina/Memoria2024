@@ -15,4 +15,6 @@ urlpatterns = [
          views.obtener_profesores_por_asignatura, name='obtener_profesores_por_asignatura'),
     path('download/<int:id_documento>/',
          views.download_document, name='download_document'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout')
 ]
