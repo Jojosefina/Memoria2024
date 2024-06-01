@@ -86,7 +86,7 @@ def post(request, id):
                 nuevo_comentario.id_documento_asociado = documento
                 nuevo_comentario.fecha = datetime.datetime.now()
                 nuevo_comentario.save()
-                return redirect(reverse('post', kwargs={'id': documento.id_documento}))
+                return redirect(reverse('Post', kwargs={'id': documento.id_documento}))
         elif 'calificacion' in request.POST:
             form = RateForm(request.POST)
             if form.is_valid():
