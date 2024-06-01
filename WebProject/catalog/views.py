@@ -4,8 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.template import Template, Context, loader
-from .forms import FileForm, RegisterForm
-from .models import Asignaturas, Documentos, Etiquetas, Profesores, Account
+from django.urls import reverse
+from .forms import FileForm, RegisterForm, CommentForm, RateForm
+from .models import Asignaturas, Comentarios, Documentos, Etiquetas, Profesores, Account
 
 
 def home(request):
@@ -70,11 +71,46 @@ def download_document(request, id_documento):
 
 
 def post(request, id):
-    # Encuentra el documento por su ID
     documento = get_object_or_404(Documentos, id_documento=id)
     etiquetas = documento.etiquetas.all()
-    # Renderiza la plantilla 'post.html' con el documento obtenido
-    return render(request, 'post.html', {'documento': documento, 'etiquetas': etiquetas})
+    comentarios = Comentarios.objects.filter(id_documento_asociado=id)
+    nuevo_comentario = None
+    user = request.user
+
+    if request.method == 'POST':
+        if 'contenido' in request.POST:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                nuevo_comentario = form.save(commit=False)
+                nuevo_comentario.id_usuario = user
+                nuevo_comentario.id_documento_asociado = documento
+                nuevo_comentario.fecha = datetime.datetime.now()
+                nuevo_comentario.save()
+                return redirect(reverse('post', kwargs={'id': documento.id_documento}))
+        elif 'calificacion' in request.POST:
+            form = RateForm(request.POST)
+            if form.is_valid():
+                nueva_calificacion = form.cleaned_data['calificacion']
+                documento.calificaciones_usuarios[str(
+                    user.id_usuario)] = nueva_calificacion
+                documento.num_calificaciones = len(
+                    documento.calificaciones_usuarios)
+                total_calificaciones = sum(
+                    map(int, documento.calificaciones_usuarios.values()))
+                documento.calificacion = total_calificaciones / documento.num_calificaciones
+                documento.save()
+                return redirect(reverse('Post', kwargs={'id': documento.id_documento}))
+    else:
+        form = CommentForm()
+        rate_form = RateForm()
+
+    return render(request, 'post.html', {
+        'documento': documento,
+        'etiquetas': etiquetas,
+        'comentarios': comentarios,
+        'form': form,
+        'rate_form': rate_form
+    })
 
 
 def obtener_profesores_por_asignatura(request, asignatura_id):

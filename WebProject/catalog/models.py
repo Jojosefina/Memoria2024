@@ -2,6 +2,7 @@ import os
 import random
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db.models import JSONField
 
 
 class TiposMaterial(models.Model):
@@ -183,6 +184,7 @@ class Documentos(models.Model):
     num_calificaciones = models.IntegerField(default=0)
     cantidad_descargas = models.IntegerField()
     etiquetas = models.ManyToManyField(Etiquetas)
+    calificaciones_usuarios = JSONField(default=dict)
 
     class Meta:
         verbose_name = 'Documento'

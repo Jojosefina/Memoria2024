@@ -307,55 +307,26 @@ i {
   margin: 10px;
 }
 
-/*star rating*/
-.rate {
-  float: left; /* Alineación natural para comenzar de izquierda a derecha */
-  padding: 0 10px; /* Espacio entre estrellas */
-  width: 400px;
-}
+/*RATING*/
 
-.rate:not(:checked) > input {
-  position: absolute;
-  top: -9999px; /* Ocultar los inputs */
+input[type="range"]::-webkit-slider-runnable-track {
+  /* Color de la barra */
+  background-color: rgba(
+    217,
+    217,
+    217,
+    1
+  ); /* Cambia el color de la barra aquí */
+  /* Altura de la barra */
+  height: 15px; /* Ajusta la altura de la barra según sea necesario */
 }
-
-.rate:not(:checked) > label {
-  float: right; /* Invierte el orden visual */
-  cursor: pointer;
-  font-size: 30px; /* Tamaño de las estrellas */
-  color: #ccc; /* Color de estrellas no seleccionadas */
-}
-
-.rate:not(:checked) > label:before {
-  font-size: 50px;
-  content: "★"; /* Símbolo de estrella */
-}
-
-.rate > input:checked ~ label {
-  color: rgba(168, 68, 122, 0.7); /* Color para estrellas seleccionadas */
-}
-
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-  color: rgba(
-    168,
-    68,
-    122,
-    0.7
-  ); /* Efecto de hover para estrellas no seleccionadas */
-}
-
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-  color: rgba(
-    168,
-    68,
-    122,
-    0.7
-  ); /* Efecto para hover con estrella seleccionada */
+/* Estilos personalizados para el control deslizante */
+.form-range::-webkit-slider-thumb {
+  /* Color del control deslizante */
+  background-color: rgba(47, 54, 95, 1);
+  width: 23px;
+  height: 23px;
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.5);
 }
 
 /* REGISTRO */
@@ -415,4 +386,26 @@ i {
 /* MODAL */
 .modal-content {
   background-color: rgba(251, 228, 213, 1);
+}
+
+/* COMENTARIOS */
+
+.comment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  width: 1095px;
+  background-color: rgba(217, 217, 217, 1);
+  border-radius: 10px;
+}
+
+.comment {
+  border-bottom: 2px solid rgba(47, 54, 95, 0.344);
+  padding-bottom: 10px;
+  word-wrap: break-word;
+}
+
+textarea::placeholder {
+  font-size: 20px;
 }

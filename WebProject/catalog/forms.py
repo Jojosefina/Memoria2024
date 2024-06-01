@@ -1,5 +1,5 @@
 from django import forms
-from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Account
+from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Account, Comentarios
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -51,3 +51,21 @@ class RegisterForm(UserCreationForm):
             return email
         raise forms.ValidationError(
             'Correo "%s" ya está en uso.' % account.correo)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comentarios
+        fields = ['contenido']
+        widgets = {
+            'contenido': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Escribe tu comentario aquí...'}),
+        }
+
+
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = Documentos
+        fields = ['calificacion']
+        widgets = {
+            'calificacion': forms.NumberInput(attrs={'type': 'range', 'class': 'form-range', 'min': '1', 'max': '5', 'step': '1'}),
+        }
