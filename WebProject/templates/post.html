@@ -1,15 +1,18 @@
 {% extends "navbar.html" %}{% load static %} {% block content %}
 
-<div class="row">
-  <div class="col-12">
-    <h2
-      class="barlow-extrabold"
-      style="font-size: 56px; padding: 49px 0 49px 80px"
-    >
-      {{ documento.titulo }}
-    </h2>
-  </div>
-</div>
+<h2 class="barlow-extrabold" style="font-size: 56px; padding: 49px 0 49px 80px">
+  {{ documento.titulo }}
+  <a href="{% url 'agregar_favorito' documento.id_documento %}">
+    {% if fav %}
+    <i
+      class="fa-solid fa-bookmark fa-xs"
+      style="color: rgba(168, 68, 122, 0.7)"
+    ></i>
+    {% else %}
+    <i class="fa-regular fa-bookmark fa-xs"></i>
+    {% endif %}
+  </a>
+</h2>
 <div class="container mb-5 pb-5">
   <div class="row">
     <div class="col-7">

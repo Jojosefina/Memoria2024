@@ -69,24 +69,6 @@ class Etiquetas(models.Model):
         return self.nombre
 
 
-# class Usuarios(models.Model):
-#     id_usuario = models.AutoField(primary_key=True)
-#     nombre = models.CharField(max_length=20)
-#     apellido = models.CharField(max_length=20)
-#     correo = models.EmailField()
-#     contrasena = models.CharField(max_length=15)
-#     fecha_nacimiento = models.DateField()
-#     fecha_ingreso = models.DateField()
-
-#     class Meta:
-#         verbose_name = 'Usuario'
-#         verbose_name_plural = 'Usuarios'
-
-#     def __str__(self):
-#         return self.nombre + ' ' + self.apellido
-
-
-# create new users
 class UserManager(BaseUserManager):
     def create_user(self, correo, nombre, apellido, fecha_nacimiento, fecha_ingreso, password=None):
         if not correo:
@@ -135,6 +117,7 @@ class Account(AbstractBaseUser):
     correo = models.EmailField(unique=True)
     fecha_nacimiento = models.DateField()
     fecha_ingreso = models.DateField()
+    favoritos = models.ManyToManyField('Documentos', null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

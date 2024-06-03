@@ -1,24 +1,22 @@
-{% extends "navbar.html" %}{% load static %}{% block content %}
-
-<h2
-  class="barlow-extrabold titles"
-  style="font-size: 50px; padding: 49px 0 49px 80px"
->
-  {{asignatura.nombre}}
+{%extends "navbar.html"%}{% load static %}{%block title%} Mis Apuntes
+{%endblock%} {% block content %}
+<h2 class="barlow-extrabold" style="font-size: 56px; padding: 49px 0 49px 80px">
+  Favoritos
 </h2>
-
-{% if user.is_authenticated %} {% if documentos %}
+{% if user.is_authenticated %} {% if favoritos %}
 <div class="container">
-  {% for elementos in documentos %}
-  <!-- si es el primer documento en resultados -->
-  {% if forloop.first %}
+  {% for elementos in favoritos %} {% if forloop.first %}
   <div class="row">
     {% for elemento in elementos %}
     <div class="col-3" style="float: none; margin: 0 auto">
       <a href="{% url 'Post' elemento.id_documento %}" class="btn">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title barlow-semibold">{{elemento.titulo}}</h5>
+            <h5
+              class="card-title barlow-semibold d-flex justify-content-center"
+            >
+              {{elemento.titulo}}
+            </h5>
             <p class="card-text">
               Subido el {{elemento.fecha_subida}} por {{elemento.id_usuario}}
             </p>
@@ -37,6 +35,7 @@
                 {% endif %}
               </div>
             </div>
+
             <div class="card-text card-text-final">
               <div>Calificación: {{ elemento.calificacion }}</div>
               <div>Descargas: {{elemento.cantidad_descargas }}</div>
@@ -47,7 +46,6 @@
     </div>
     {% endfor %}
   </div>
-  <!-- si es el ultimo documento en resultados -->
   {% elif forloop.last %}
   <div class="row" style="margin-top: 98px; margin-bottom: 100px">
     {% for elemento in elementos %}
@@ -118,9 +116,9 @@
         </div>
       </a>
     </div>
-
     {% endfor %}
   </div>
+
   {% endif %} {% endfor %}
 </div>
 {% else %}
@@ -128,22 +126,9 @@
   <div class="row">
     <div class="col-12">
       <h2 class="barlow-semibold" style="text-align: center; margin-top: 100px">
-        No hay apuntes para esta asignatura
+        No tienes apuntes favoritos
       </h2>
     </div>
   </div>
-  {% endif %} {% else %}
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h2
-          class="barlow-semibold"
-          style="text-align: center; margin-top: 100px"
-        >
-          Inicia sesión para ver los apuntes de esta asignatura
-        </h2>
-      </div>
-    </div>
-    {% endif %} {% endblock %}
-  </div>
 </div>
+{% endif %}{% endif %} {% endblock %}

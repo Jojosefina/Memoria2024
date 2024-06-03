@@ -1,12 +1,12 @@
 import datetime
 import os
 from django.contrib.auth import authenticate, login, logout
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.template import Template, Context, loader
 from django.urls import reverse
 from .forms import FileForm, RegisterForm, CommentForm, RateForm
-from .models import Asignaturas, Comentarios, Documentos, Etiquetas, Profesores, Account
+from .models import Asignaturas, Comentarios, Documentos, Etiquetas, Profesores, Account, Semestres
 
 
 def home(request):
@@ -16,13 +16,33 @@ def home(request):
     return render(request, 'home.html', {'documentos': documentos})
 
 
-def misApuntes(request):
-    return render(request, 'misApuntes.html')
-
-
 def divide_by_chunks(lista, n):
     for i in range(0, len(lista), n):
         yield lista[i:i + n]
+
+
+def misApuntes(request):
+    user = request.user
+    documentos_user = Documentos.objects.filter(id_usuario=user)
+    favoritos = user.favoritos.all()
+    lista_documentos = list(divide_by_chunks(documentos_user, 3))
+    return render(request, 'misApuntes.html', {'favoritos': favoritos, 'documentos': lista_documentos})
+
+
+def favoritos(request):
+    favoritos = request.user.favoritos.all()
+    lista_favoritos = list(divide_by_chunks(favoritos, 3))
+    return render(request, 'favoritos.html', {'favoritos': lista_favoritos})
+
+
+def agregar_favorito(request, id_documento):
+    user = request.user
+    documento = get_object_or_404(Documentos, id_documento=id_documento)
+    if documento in user.favoritos.all():
+        user.favoritos.remove(documento)
+    else:
+        user.favoritos.add(documento)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def busqueda(request):
@@ -42,10 +62,25 @@ def get_asignatura_id(asignatura):
         return None
 
 
+def filtrar_asignaturas(request):
+    semestre_id = request.GET.get('semestre')
+    semestres = Semestres.objects.all()
+    if semestre_id:
+        asignaturas = Asignaturas.objects.filter(
+            semestres__id_semestre=semestre_id)
+    else:
+        asignaturas = Asignaturas.objects.all()
+
+    lista_asignaturas = list(divide_by_chunks(asignaturas, 3))
+    context = {'lista_asignaturas': lista_asignaturas, 'semestres': semestres}
+    return render(request, 'asignaturas.html', context)
+
+
 def asignaturas(request):
+    semestres = Semestres.objects.all()
     asignaturas = Asignaturas.objects.all()
     lista_asignaturas = list(divide_by_chunks(asignaturas, 3))
-    return render(request, 'asignaturas.html', {'lista_asignaturas': lista_asignaturas})
+    return render(request, 'asignaturas.html', {'lista_asignaturas': lista_asignaturas, 'semestres': semestres})
 
 
 def apuntesAsignaturas(request, id_asignatura):
@@ -76,6 +111,9 @@ def post(request, id):
     comentarios = Comentarios.objects.filter(id_documento_asociado=id)
     nuevo_comentario = None
     user = request.user
+    fav = False
+    if user.is_authenticated:
+        fav = documento in user.favoritos.all()
 
     if request.method == 'POST':
         if 'contenido' in request.POST:
@@ -109,7 +147,8 @@ def post(request, id):
         'etiquetas': etiquetas,
         'comentarios': comentarios,
         'form': form,
-        'rate_form': rate_form
+        'rate_form': rate_form,
+        'fav': fav,
     })
 
 

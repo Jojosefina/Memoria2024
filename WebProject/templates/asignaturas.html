@@ -1,40 +1,39 @@
 {%extends "navbar.html"%}{% load static %}{%block title%} Asignaturas
 {%endblock%} {% block content %}
-<div class="row">
-  <div class="col-6">
-    <h2
-      class="barlow-extrabold"
-      style="font-size: 56px; padding: 49px 0 49px 80px"
+
+<h2 class="barlow-extrabold" style="font-size: 56px; padding: 49px 0 0 80px">
+  Asignaturas
+</h2>
+<div class="d-flex justify-content-end mb-5" style="padding-right: 127px">
+  <div class="dropdown">
+    <button
+      class="btn custom-dropdown barlow-semibold"
+      type="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      id="filtroSemestre"
     >
-      Asignaturas
-    </h2>
-  </div>
-  <div class="col-6 text-end align-self-center" style="padding-right: 127px">
-    <div class="dropdown">
-      <button
-        class="btn custom-dropdown barlow-semibold"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        Semestre
-        <i class="fa-solid fa-chevron-down"></i>
-      </button>
-      <ul class="dropdown-menu custom-dropdown-menu">
-        <li>
-          <a class="dropdown-item barlow-semibold" href="#">1er Semestre</a>
-        </li>
-        <li>
-          <a class="dropdown-item barlow-semibold" href="#">2do Semestre</a>
-        </li>
-        <li>
-          <a class="dropdown-item barlow-semibold" href="#">3er Semestre</a>
-        </li>
-        <li>
-          <a class="dropdown-item barlow-semibold" href="#">4to Semestre</a>
-        </li>
-      </ul>
-    </div>
+      Semestre
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+    <ul class="dropdown-menu custom-dropdown-menu">
+      <li>
+        <a
+          class="dropdown-item barlow-semibold"
+          href="{% url 'filtrar_asignaturas' %}"
+          >Todos</a
+        >
+      </li>
+      {% for semestre in semestres %}
+      <li>
+        <a
+          class="dropdown-item barlow-semibold"
+          href="{% url 'filtrar_asignaturas' %}?semestre={{ semestre.id_semestre }}"
+          >{{ semestre.nombre }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 <div class="container">
