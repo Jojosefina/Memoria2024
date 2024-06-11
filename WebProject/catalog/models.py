@@ -59,7 +59,7 @@ class Semestres(models.Model):
 
 class Etiquetas(models.Model):
     id_etiqueta = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=15)
+    nombre = models.CharField(max_length=50)
 
     class Meta:
         verbose_name = 'Etiqueta'
