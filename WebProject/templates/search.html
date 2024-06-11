@@ -1,15 +1,9 @@
 {% extends "navbar.html" %} {% block content %}
 <h2 class="barlow-extrabold" style="font-size: 50px; padding: 49px 0 49px 80px">
   Resultados:
-  <span
-    class="barlow-extrabold"
-    style="
-      color: rgba(61, 90, 91, 0.66);
-      font-size: 50px;
-      text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    "
-    >"{{ query }}"</span
-  >
+  <div class="container">
+    <span class="barlow-extrabold query">"{{ query }}"</span>
+  </div>
 </h2>
 
 {% if resultados %}
@@ -129,5 +123,13 @@
   {% endif %} {% endfor %}
 </div>
 {% else %}
-<p>No hay resultados</p>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="barlow-semibold" style="text-align: center; margin-top: 100px">
+        No hay resultados para "{{ query }}"
+      </h2>
+    </div>
+  </div>
+</div>
 {% endif %} {% endblock %}

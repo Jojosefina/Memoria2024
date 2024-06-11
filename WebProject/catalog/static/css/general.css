@@ -423,3 +423,12 @@ input[type="range"]::-webkit-slider-runnable-track {
 textarea::placeholder {
   font-size: 20px;
 }
+
+/* QUERY SEARCH */
+
+.query {
+  color: rgba(61, 90, 91, 0.66);
+  font-size: 50px;
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  word-wrap: break-word;
+}
