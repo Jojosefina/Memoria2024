@@ -1,6 +1,8 @@
+from datetime import date
 from django import forms
 from .models import Asignaturas, Documentos, Etiquetas, Profesores, TiposMaterial, Account, Comentarios
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 
 class FileForm(forms.ModelForm):
@@ -21,7 +23,16 @@ class FileForm(forms.ModelForm):
         }
 
 
+def validate_uchile_email(value):
+    if not any(value.endswith(domain) for domain in ["@ug.uchile.cl", "@uchile.cl", "@ing.uchile.cl"]):
+        raise ValidationError(
+            "El correo debe terminar en @ug.uchile.cl, @uchile.cl o @ing.uchile.cl")
+
+
 class RegisterForm(UserCreationForm):
+    correo = forms.EmailField(validators=[
+                              validate_uchile_email], widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Account
         fields = ['nombre', 'apellido', 'correo',
@@ -29,7 +40,6 @@ class RegisterForm(UserCreationForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'correo': forms.EmailInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
             'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
@@ -41,6 +51,17 @@ class RegisterForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'class': 'form-control'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control'})
         self.fields['fecha_ingreso'].initial = '2018-03-03'
+
+        # Calcula el año mínimo permitido (hace 17 años)
+        today = date.today()
+        max_birthyear = today.year - 17
+
+        # Actualiza los atributos del widget de fecha_nacimiento
+        self.fields['fecha_nacimiento'].widget.attrs.update({
+            'max': f'{max_birthyear}-12-31',
+            'class': 'form-control',
+            'type': 'date'
+        })
 
     def clean_email(self):
         email = self.cleaned_data['correo'].lower()

@@ -16,6 +16,7 @@
     >
       Busca y comparte material de estudio
     </h1>
+    {% if user.is_authenticated %}
     <div class="d-flex justify-content-center">
       <form
         class="d-flex flex-column align-items-center"
@@ -42,12 +43,36 @@
             aria-label="Buscar"
             style="height: 100px; font-size: 40px"
           />
-          <button class="btn custom-btn barlow-semibold" type="submit">
+          <button
+            id="searchBtn"
+            class="btn custom-btn barlow-semibold"
+            type="submit"
+          >
             Buscar
           </button>
         </div>
       </form>
     </div>
+    {% else %}
+    <div class="d-flex justify-content-center">
+      <button
+        class="btn custom-btn barlow-bold col-10 h-auto"
+        style="
+          font-size: 40px;
+          margin-top: 20px;
+          width: 602px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        "
+        data-bs-toggle="modal"
+        data-bs-target="#loginModal"
+      >
+        Inicia sesión para buscar material
+      </button>
+    </div>
+    {% endif %}
     <h1
       class="barlow-extrabold text-center"
       style="

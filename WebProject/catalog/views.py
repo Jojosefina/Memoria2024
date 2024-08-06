@@ -1,5 +1,6 @@
 import datetime
 import os
+import random
 from django.contrib.auth import authenticate, login, logout
 from django.http import FileResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
@@ -49,7 +50,7 @@ def busqueda(request):
     query = request.GET.get('search', '')  # Obtener la consulta de búsqueda
     # Buscar documentos cuyo título contenga la consulta (insensible a mayúsculas/minúsculas)
     resultados = Documentos.objects.filter(
-        titulo__icontains=query)  # Ajusta el campo según tu caso
+        titulo__icontains=query)
     # Divide los resultados en grupos de 3
     lista_resultados = list(divide_by_chunks(resultados, 3))
     return render(request, 'search.html', {'resultados': lista_resultados, 'query': query})
@@ -165,8 +166,7 @@ def subida(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             documento_instance = form.save(commit=False)
-            documento_instance.id_usuario = Account.objects.filter(
-                id_usuario=1).first()  # request.user
+            documento_instance.id_usuario = request.user
             documento_instance.fecha_subida = datetime.datetime.now()
             documento_instance.calificacion = 0
             documento_instance.cantidad_descargas = 0
@@ -217,10 +217,10 @@ def login_view(request):
             # Redirigir a la página de inicio después del inicio de sesión exitoso
             return redirect('home')
         else:
-            # Aquí puedes manejar el caso en el que las credenciales son inválidas
+            # manejar el caso en el que las credenciales son inválidas
             return HttpResponse('Credenciales inválidas', status=401)
     else:
-        # Aquí puedes manejar el caso en el que no se haya enviado un formulario de inicio de sesión
+        # manejar el caso en el que no se haya enviado un formulario de inicio de sesión
         return HttpResponse('Método no permitido', status=405)
 
 
